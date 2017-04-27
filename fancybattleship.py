@@ -1,5 +1,12 @@
 from random import randint
 
+""" Shit to add:
+end screen that shows where it was
+multiple ships
+bigger ships
+error handling on setup steps
+"""
+
 # This sets the number of turns in the game. 
 game_length = int(raw_input("How many turns do you want to play?"))
 
@@ -13,11 +20,13 @@ for x in range(board_size):
     board.append(["O"] * board_size)
 
 def print_board(board):
+    print "============================="
     print '__' + '_'.join(str(x) for x in xrange(1,board_size + 1))
     row_number = 1
     for row in board:
         print str(row_number) + "|" + " ".join(row)
         row_number += 1
+    print "============================="
 
 
 print "Let's play Battleship!"
@@ -47,9 +56,12 @@ for turn in range(game_length):
 
 	if guess_row == ship_row and guess_col == ship_col:
 		print "Congratulations! You sunk my battleship!"
+		board[guess_row][guess_col] = "X"
+		print_board(board)
 		break
 	else:
-   		if (guess_row < 0 or guess_row > 4) or (guess_col < 0 or guess_col > 4):
+   		if (guess_row < 0 or guess_row > board_size - 1) or \
+   			(guess_col < 0 or guess_col > board_size -1):
 			print "You have left the combat area. Lose a turn."
 			print_board(board)
 		elif(board[guess_row][guess_col] == "X"):
@@ -61,3 +73,6 @@ for turn in range(game_length):
 			print_board(board)
 		if turn == game_length - 1:
 			print "Ha ha ha! I got away! Now I'm going to spend all my money on hookers and blackjack!"
+			print "See, I was at %s, %s" % (ship_row + 1, ship_col + 1)
+			board[ship_row][ship_col] = "*"
+			print_board(board)
